@@ -126,21 +126,14 @@ else:  # if not empty, show the charts (both charts live inside this else so nei
         st.altair_chart(altair_chart, use_container_width=True)  # display the altair chart, use the container width to make it responsive
 
     with chart_col2:  # with chart column 2, we put these in top down order
-        st.caption("Plotly — share of pull requests by language, Quarter 1 only (parts of a whole → pie chart)")  # a caption for the chart
-        is_q1 = filtered["quarter"] == 1  # boolean series that is True for rows from quarter 1
-        q1_rows = filtered[is_q1]  # filter by that boolean series, leaves one row per language for quarter 1
-        if len(q1_rows) == 0:  # if the quarter dropdown is on another quarter, or nothing in quarter 1 matches, there is nothing to draw
-            st.info("No Quarter 1 rows match the current filters — this pie only shows Quarter 1, so set the quarter filter to 'All quarters' or 1.")
-        else:  # if there are quarter 1 rows, draw the pie
-            q1_rows = q1_rows.sort_values(by="count", ascending=False)  # sort so the biggest languages come first
-            q1_top = q1_rows.head(10)  # keep only the top 10, about 90 slices would be unreadable
-            pie = px.pie(  # make a pie chart using plotly express
-                q1_top,  # grab the top 10 quarter 1 rows
-                names="name",  # one slice per language
-                values="count",  # each slice is sized by that language's quarter 1 pull requests
-                title="Share of Quarter 1 pull requests (top 10 languages)",
-                labels={"name": "Language", "count": "Pull requests"},
-            )
-            st.plotly_chart(pie, use_container_width=True)  # display the plotly chart, use the container width to make it responsive
+        st.caption("Plotly — share of pull requests by language (parts of a whole → pie chart)")  # a caption for the chart
+        pie = px.pie(  # make a pie chart using plotly express
+            top_languages,  # reuse the top 10 totals built for the bar chart above, so the pie reacts to every filter exactly like the bar chart does
+            names="name",  # one slice per language
+            values="count",  # each slice is sized by that language's total pull requests
+            title="Share of pull requests (top 10 languages)",
+            labels={"name": "Language", "count": "Pull requests"},
+        )
+        st.plotly_chart(pie, use_container_width=True)  # display the plotly chart, use the container width to make it responsive
 
 st.caption("Programming Language Info Site")  # caption at the bottom of the page
