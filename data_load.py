@@ -28,10 +28,12 @@ def fetch_github_language(language):
     # This is a plain GET request: no API key and no login, just a URL with a query string.
     url = "https://api.github.com/search/repositories"
 
-    # q=language:Python is GitHub's search syntax for "repos written in Python".
+    # q=language:"Python" is GitHub's search syntax for "repos written in Python".
+    # The quotes keep names with spaces together: without them, language:Jupyter Notebook would
+    # search for Jupyter repos that mention the word Notebook.
     # sort/order ask for the most starred first, per_page keeps the response small.
     params = {
-        "q": f"language:{language}",
+        "q": f'language:"{language}"',
         "sort": "stars",
         "order": "desc",
         "per_page": 10,

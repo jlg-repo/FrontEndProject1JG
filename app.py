@@ -3,6 +3,7 @@ import pandas as pd
 import altair as alt  # import the altair library, similar to plotly
 import plotly.express as px  # import plotly express, a high-level interface for plotly
 
+#OLD LEGACY VERSION, DO NOT RUN.
 # display it as a dataframe and complete 2 filtering options
 # ( from dropdown, filtering by search, filtering in ascending order etc
 

@@ -37,7 +37,11 @@ language_options = sorted(language_options)  # now sort those 30 alphabetically 
 # .get() is used instead of [] because a visitor can land here without stopping on Trends first.
 carried_language = st.session_state.get("focus_language", None)
 
-if carried_language in language_options:  # only trust the carried value if it is actually one of our options
+if carried_language is not None:  # the user picked a language on the Trends page
+    # The Trends page offers all 100 languages in the 2021 data, but the dropdown here only has the top 30.
+    # If the carried language is not one of them (Rust, Kotlin etc), add it, so the handoff is never silently ignored.
+    if carried_language not in language_options:
+        language_options = sorted(language_options + [carried_language])  # add it, then keep the list alphabetical
     default_languages = [carried_language]  # start the multiselect on the language the user was just looking at
     st.success(f"Carried over from the Trends page: **{carried_language}**")
 else:
