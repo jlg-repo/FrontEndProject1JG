@@ -1,5 +1,7 @@
 import streamlit as st
 
+from auth import show_logout_button
+
 
 # Configure the page title, icon, and wide layout for this app.
 st.set_page_config(page_title="Home", page_icon="", layout="wide")
@@ -28,6 +30,7 @@ st.caption("Please log in to continue")
 if st.session_state["authenticated"] == True:
     st.success(f"Logged in as {st.session_state['username']}.")
     st.write("Use the sidebar to choose from the pages.")
+    show_logout_button()
 else:
     # st.form groups the two inputs and the submit button so the app only reruns once, on submit.
     login_form = st.form("login_form")
